@@ -1,5 +1,8 @@
 ## Threaded In Memory Queue
 
+[![Build Status](https://travis-ci.org/schneems/threaded_in_memory_queue.png?branch=master)](https://travis-ci.org/schneems/threaded_in_memory_queue)
+
+
 A simple non-durable in memory queue for running background tasks using threads.
 
 ## Why
