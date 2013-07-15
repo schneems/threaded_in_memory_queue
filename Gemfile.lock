@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    threaded_in_memory_queue (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    metaclass (0.0.1)
+    mocha (0.14.0)
+      metaclass (~> 0.0.1)
+    rake (10.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mocha
+  rake
+  threaded_in_memory_queue!
