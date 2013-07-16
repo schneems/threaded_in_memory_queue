@@ -34,8 +34,7 @@ module ThreadedInMemoryQueue
   end
 
   def self.stop(timeout = 10)
-    return true unless master
-    master.stop(timeout)
+    master.stop(timeout) if master
     return true
   end
 end
