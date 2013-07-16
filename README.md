@@ -44,7 +44,7 @@ Then to enqueue a task to be run in the background use `ThreadedInMemoryQueue.en
 
 ```ruby
 repo = Repo.last
-ThreadedInMemoryQueue.enqueue(Archive, repo.last, 'staging')
+ThreadedInMemoryQueue.enqueue(Archive, repo.id, 'staging')
 ```
 
 The first argument is a class that defines the task to be processed and the rest of the arguments are passed to the task when it is run.
