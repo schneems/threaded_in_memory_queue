@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    threaded_in_memory_queue (0.0.1)
+    threaded_in_memory_queue (0.0.2)
 
 GEM
   remote: https://rubygems.org/

@@ -1,7 +1,7 @@
 module ThreadedInMemoryQueue
   module Inline
     def inline
-      Thread.current[:threaded_worker_inline]
+      @inline
     end
 
     def inline?
@@ -9,7 +9,7 @@ module ThreadedInMemoryQueue
     end
 
     def inline=(inline)
-      Thread.current[:threaded_worker_inline] = inline
+      @inline = inline
     end
   end
 end

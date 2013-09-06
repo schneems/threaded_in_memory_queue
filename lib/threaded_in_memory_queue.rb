@@ -19,12 +19,21 @@ module ThreadedInMemoryQueue
     return self
   end
 
+  def self.started?
+    return false unless master
+    master.alive?
+  end
+
+  def self.stopped?
+    !started?
+  end
+
   def self.master
-    Thread.current[:threaded_in_memory_queue_master]
+    @master
   end
 
   def self.master=(master)
-    Thread.current[:threaded_in_memory_queue_master] = master
+    @master = master
   end
 
   def self.enqueue(klass, *args)
