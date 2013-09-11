@@ -3,14 +3,12 @@ require 'timeout'
 require 'logger'
 
 require 'threaded_in_memory_queue/version'
-require 'threaded_in_memory_queue/inline'
 require 'threaded_in_memory_queue/timeout'
 
 module ThreadedInMemoryQueue
-  extend Inline
-
   class << self
-    attr_accessor :logger
+    attr_accessor :logger, :inline
+    alias :inline? :inline
   end
 
   def self.start(options = {})
@@ -36,9 +34,13 @@ module ThreadedInMemoryQueue
     @master = master
   end
 
-  def self.enqueue(klass, *args)
-    raise NoWorkersError, "must start worker before enqueueing jobs" unless master
-    master.enqueue(klass, *args)
+  def self.enqueue(job, *args)
+    if inline?
+      job.call(*args)
+    else
+      raise NoWorkersError unless started?
+      master.enqueue(job, *args)
+    end
     return true
   end
 

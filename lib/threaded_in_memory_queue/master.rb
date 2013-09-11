@@ -2,7 +2,6 @@ module ThreadedInMemoryQueue
   class Master
     include ThreadedInMemoryQueue::Timeout
     attr_reader :workers, :logger
-    extend Inline
 
     DEFAULT_TIMEOUT = 60 # seconds, 1 minute
     DEFAULT_SIZE    = 16
@@ -42,13 +41,9 @@ module ThreadedInMemoryQueue
       return self
     end
 
-    def enqueue(klass, *json)
-      if self.class.inline?
-        klass.call(*json)
-      else
-        raise NoWorkersError, "No workers" unless alive?
-        @queue.enq([klass, json])
-      end
+    def enqueue(job, *json)
+      raise NoWorkersError unless alive?
+      @queue.enq([job, json])
       return true
     end
 

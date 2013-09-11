@@ -38,7 +38,7 @@ module ThreadedInMemoryQueue
     private
     def create_thread
       Thread.new {
-        logger.info("Worker #{object_id} ready")
+        logger.info("Threaded In Memory Queue Worker '#{object_id}' ready")
         loop do
           payload   = queue.pop
           job, json = *payload
@@ -48,7 +48,7 @@ module ThreadedInMemoryQueue
             job.call(*json)
           end
         end
-        logger.info("Worker #{object_id} stopped")
+        logger.info("Threaded In Memory Queue Worker '#{object_id}' stopped")
       }
     end
   end
