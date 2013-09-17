@@ -54,19 +54,31 @@ The first argument is a class that defines the task to be processed and the rest
 The default number of worker threads is 16, you can configure that when you start your queue:
 
 ```ruby
-ThreadedInMemoryQueue.start(size: 5)
+ThreadedInMemoryQueue.config do |config|
+  config.size = 5
+end
 ```
 
 By default jobs have a timeout value of 60 seconds. Since this is an in-memory queue (goes away when your process terminates) it is in your best interests to keep jobs small and quick, and not overload the queue. You can configure a different timeout on start:
 
 ```ruby
-ThreadedInMemoryQueue.start(timeout: 90) # timeout is in seconds
+ThreadedInMemoryQueue.config do |config|
+  config.timeout = 90 # timeout is in seconds
+end
 ```
 
 Want a different logger? Specify a different Logger:
 
 ```ruby
-ThreadedInMemoryQueue.start(logger: MyCustomLogger.new)
+ThreadedInMemoryQueue.config do |config|
+  config.logger = Logger.new(STDOUT)
+end
+```
+
+Make sure to configure before you start your queue. You can also inline your config if you want when you start the queue:
+
+```ruby
+ThreadedInMemoryQueue.start(size: 5, timeout: 90, logger: Logger.new(STDOUT))
 ```
 
 For testing or guaranteed code execution use the Inline option:
@@ -89,7 +101,11 @@ at_exit do
 end
 ```
 
-This call takes an optional timeout value (in seconds), the default is 10.
+This call takes an optional timeout value (in seconds).
+
+```ruby
+ThreadedInMemoryQueue.stop(42)
+```
 
 ## License
 
