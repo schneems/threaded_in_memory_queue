@@ -1,4 +1,4 @@
-## Threaded In Memory Queue
+## Threaded
 
 [![Build Status](https://travis-ci.org/schneems/threaded.png?branch=master)](https://travis-ci.org/schneems/threaded)
 
@@ -21,12 +21,6 @@ Then run `$ bundle install`
 
 ## Use it
 
-Add this code in an initializer to start the in memory queue worker (configuration options are below):
-
-```ruby
-Threaded.start
-```
-
 Define your task to be processed:
 
 ```ruby
@@ -48,6 +42,8 @@ Threaded.enqueue(Archive, repo.id, 'staging')
 ```
 
 The first argument is a class that defines the task to be processed and the rest of the arguments are passed to the task when it is run.
+
+
 
 # Configure
 
@@ -75,13 +71,13 @@ Threaded.config do |config|
 end
 ```
 
-Make sure to configure before you start your queue. You can also inline your config if you want when you start the queue:
+As soon as you call `enqueue` a new thread will be started, if you wish to explicitly start all threads you can call `Threaded.start`. You can also inline your config if you want when you start the queue:
 
 ```ruby
 Threaded.start(size: 5, timeout: 90, logger: Logger.new(STDOUT))
 ```
 
-For testing or guaranteed code execution use the Inline option:
+For testing or guaranteed code execution use the `inline` option:
 
 ```ruby
 Threaded.inline = true

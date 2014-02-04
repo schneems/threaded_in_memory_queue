@@ -7,31 +7,31 @@ module Threaded
     DEFAULT_SIZE    = 16
 
     def initialize(options = {})
-      @queue   = Queue.new
-      @size    = options[:size]    || DEFAULT_SIZE
-      @timeout = options[:timeout] || DEFAULT_TIMEOUT
-      @logger  = options[:logger]  || Threaded.logger
-      @workers = []
+      @queue    = Queue.new
+      @mutex    = Mutex.new
+      @stopping = false
+      @max      = options[:size]     || DEFAULT_SIZE
+      @timeout  = options[:timeout]  || DEFAULT_TIMEOUT
+      @logger   = options[:logger]   || Threaded.logger
+      @workers  = []
+    end
+
+    def enqueue(job, *json)
+      @queue.enq([job, json])
+
+      new_worker if needs_workers? && @queue.size > 0
+      raise NoWorkersError unless alive?
+      return true
+    end
+
+    def alive?
+      return false if workers.empty?
+      workers.detect {|w| w.alive? }
     end
 
     def start
       return self if alive?
-      @size.times { @workers << new_worker }
-      return self
-    end
-
-    def new_worker
-      @spawned += 1
-      Worker.new(@queue, timeout: @timeout)
-    end
-
-    def join
-      workers.each {|w| w.join }
-      return self
-    end
-
-    def poison
-      workers.each {|w| w.poison }
+      @max.times { new_worker }
       return self
     end
 
@@ -41,23 +41,40 @@ module Threaded
         while self.alive?
           sleep 0.1
         end
-        self.join
+        join
       end
       return self
     end
 
-    def enqueue(job, *json)
-      raise NoWorkersError unless alive?
-      @queue.enq([job, json])
-      return true
+    def size
+      @workers.size
     end
 
-    def alive?
-      return false if workers.empty?
-      workers.detect {|w| w.alive? }
+    private
+
+    def needs_workers?
+      size < @max
+    end
+
+    def new_worker
+      @mutex.synchronize do
+        return false unless needs_workers?
+        return false if @stopping
+        @workers << Worker.new(@queue, timeout: @timeout)
+      end
+    end
+
+    def join
+      workers.each {|w| w.join }
+      return self
+    end
+
+    def poison
+      @mutex.synchronize do
+        @stopping = true
+      end
+      workers.each {|w| w.poison }
+      return self
     end
   end
 end
-
-
-
