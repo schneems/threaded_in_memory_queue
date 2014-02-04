@@ -16,8 +16,13 @@ module Threaded
 
     def start
       return self if alive?
-      @size.times { @workers << Worker.new(@queue, timeout: @timeout).start }
+      @size.times { @workers << new_worker }
       return self
+    end
+
+    def new_worker
+      @spawned += 1
+      Worker.new(@queue, timeout: @timeout)
     end
 
     def join

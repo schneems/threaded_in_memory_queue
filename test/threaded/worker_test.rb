@@ -3,7 +3,6 @@ require 'test_helper'
 class WorkerTest < Test::Unit::TestCase
   def setup
     @worker = Threaded::Worker.new(Queue.new, timeout: 1)
-    @worker.start
   end
 
   def teardown

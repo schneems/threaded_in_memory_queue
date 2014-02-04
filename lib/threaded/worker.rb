@@ -3,35 +3,28 @@ module Threaded
     DEFAULT_TIMEOUT = 60 # seconds, 1 minute
     POISON          = "poison"
     include Threaded::Timeout
-    attr_reader :queue, :logger
+    attr_reader :queue, :logger, :thread
 
     def initialize(queue, options = {})
       @queue   = queue
       @timeout = options[:timeout] || DEFAULT_TIMEOUT
       @logger  = options[:logger]  || Threaded.logger
+      @thread  = create_thread
     end
 
-    def thread
-      raise WorkerNotStarted, "Must start worker before using" unless @thread
-      @thread
-    end
-
-    def start
-      @thread ||= create_thread
-      return self
-    end
-
-    def poison(times = 1)
+    def poison
       @queue.enq(POISON)
     end
 
+    def start
+      puts "start is deprecated, thread is started when worker created"
+    end
+
     def alive?
-      return false unless @thread
       thread.alive?
     end
 
     def join
-      return false unless @thread
       thread.join
     end
 
