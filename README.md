@@ -1,6 +1,6 @@
 ## Threaded In Memory Queue
 
-[![Build Status](https://travis-ci.org/schneems/threaded_in_memory_queue.png?branch=master)](https://travis-ci.org/schneems/threaded_in_memory_queue)
+[![Build Status](https://travis-ci.org/schneems/threaded.png?branch=master)](https://travis-ci.org/schneems/threaded)
 
 
 A simple non-durable in memory queue for running background tasks using threads.
@@ -14,7 +14,7 @@ Projects like [Resque](https://github.com/resque/resque), [delayed job](https://
 In your `Gemfile`:
 
 ```ruby
-gem 'threaded_in_memory_queue'
+gem 'threaded'
 ```
 
 Then run `$ bundle install`
@@ -24,7 +24,7 @@ Then run `$ bundle install`
 Add this code in an initializer to start the in memory queue worker (configuration options are below):
 
 ```ruby
-ThreadedInMemoryQueue.start
+Threaded.start
 ```
 
 Define your task to be processed:
@@ -40,11 +40,11 @@ end
 
 It can be any object that responds to `call` but we recommend a class or module which makes switching to a durable queue later easier.
 
-Then to enqueue a task to be run in the background use `ThreadedInMemoryQueue.enqueue`:
+Then to enqueue a task to be run in the background use `Threaded.enqueue`:
 
 ```ruby
 repo = Repo.last
-ThreadedInMemoryQueue.enqueue(Archive, repo.id, 'staging')
+Threaded.enqueue(Archive, repo.id, 'staging')
 ```
 
 The first argument is a class that defines the task to be processed and the rest of the arguments are passed to the task when it is run.
@@ -54,7 +54,7 @@ The first argument is a class that defines the task to be processed and the rest
 The default number of worker threads is 16, you can configure that when you start your queue:
 
 ```ruby
-ThreadedInMemoryQueue.config do |config|
+Threaded.config do |config|
   config.size = 5
 end
 ```
@@ -62,7 +62,7 @@ end
 By default jobs have a timeout value of 60 seconds. Since this is an in-memory queue (goes away when your process terminates) it is in your best interests to keep jobs small and quick, and not overload the queue. You can configure a different timeout on start:
 
 ```ruby
-ThreadedInMemoryQueue.config do |config|
+Threaded.config do |config|
   config.timeout = 90 # timeout is in seconds
 end
 ```
@@ -70,7 +70,7 @@ end
 Want a different logger? Specify a different Logger:
 
 ```ruby
-ThreadedInMemoryQueue.config do |config|
+Threaded.config do |config|
   config.logger = Logger.new(STDOUT)
 end
 ```
@@ -78,13 +78,13 @@ end
 Make sure to configure before you start your queue. You can also inline your config if you want when you start the queue:
 
 ```ruby
-ThreadedInMemoryQueue.start(size: 5, timeout: 90, logger: Logger.new(STDOUT))
+Threaded.start(size: 5, timeout: 90, logger: Logger.new(STDOUT))
 ```
 
 For testing or guaranteed code execution use the Inline option:
 
 ```ruby
-ThreadedInMemoryQueue.inline = true
+Threaded.inline = true
 ```
 
 This option bypasses the queue and executes code as it comes.
@@ -97,14 +97,14 @@ To make sure all items in your queue are processed you can add a condition `at_e
 
 ```ruby
 at_exit do
-  ThreadedInMemoryQueue.stop
+  Threaded.stop
 end
 ```
 
 This call takes an optional timeout value (in seconds).
 
 ```ruby
-ThreadedInMemoryQueue.stop(42)
+Threaded.stop(42)
 ```
 
 ## License

@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'threaded_in_memory_queue/version'
+require 'threaded/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "threaded_in_memory_queue"
-  gem.version       = ThreadedInMemoryQueue::VERSION
+  gem.name          = "threaded"
+  gem.version       = Threaded::VERSION
   gem.authors       = ["Richard Schneeman"]
   gem.email         = ["richard.schneeman+rubygems@gmail.com"]
   gem.description   = %q{ Queue stuff in memory }
   gem.summary       = %q{ Memory, Enqueue stuff you will }
-  gem.homepage      = "https://github.com/schneems/threaded_in_memory_queue"
+  gem.homepage      = "https://github.com/schneems/threaded"
   gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)

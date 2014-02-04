@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    threaded_in_memory_queue (0.0.3)
+    threaded (0.0.4)
 
 GEM
   remote: https://rubygems.org/
@@ -17,4 +17,4 @@ PLATFORMS
 DEPENDENCIES
   mocha
   rake
-  threaded_in_memory_queue!
+  threaded!

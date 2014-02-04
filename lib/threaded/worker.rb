@@ -1,14 +1,14 @@
-module ThreadedInMemoryQueue
+module Threaded
   class Worker
     DEFAULT_TIMEOUT = 60 # seconds, 1 minute
     POISON          = "poison"
-    include ThreadedInMemoryQueue::Timeout
+    include Threaded::Timeout
     attr_reader :queue, :logger
 
     def initialize(queue, options = {})
       @queue   = queue
       @timeout = options[:timeout] || DEFAULT_TIMEOUT
-      @logger  = options[:logger]  || ThreadedInMemoryQueue.logger
+      @logger  = options[:logger]  || Threaded.logger
     end
 
     def thread

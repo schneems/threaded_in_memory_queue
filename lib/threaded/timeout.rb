@@ -1,4 +1,4 @@
-module ThreadedInMemoryQueue
+module Threaded
   module Timeout
     def timeout(timeout, message = "", &block)
       ::Timeout.timeout(timeout) do

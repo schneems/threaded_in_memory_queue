@@ -1,6 +1,6 @@
 Bundler.require
 
-require 'threaded_in_memory_queue'
+require 'threaded'
 require 'test/unit'
 require "mocha/setup"
 
@@ -8,4 +8,4 @@ require "mocha/setup"
 module Dummy
 end
 
-ThreadedInMemoryQueue.logger.level = Logger::WARN
+Threaded.logger.level = Logger::WARN

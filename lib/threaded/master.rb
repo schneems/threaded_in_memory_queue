@@ -1,6 +1,6 @@
-module ThreadedInMemoryQueue
+module Threaded
   class Master
-    include ThreadedInMemoryQueue::Timeout
+    include Threaded::Timeout
     attr_reader :workers, :logger
 
     DEFAULT_TIMEOUT = 60 # seconds, 1 minute
@@ -10,7 +10,7 @@ module ThreadedInMemoryQueue
       @queue   = Queue.new
       @size    = options[:size]    || DEFAULT_SIZE
       @timeout = options[:timeout] || DEFAULT_TIMEOUT
-      @logger  = options[:logger]  || ThreadedInMemoryQueue.logger
+      @logger  = options[:logger]  || Threaded.logger
       @workers = []
     end
 

@@ -4,25 +4,25 @@ class MasterTest < Test::Unit::TestCase
 
   def test_thread_worker_creation
     size   = 1
-    master = ThreadedInMemoryQueue::Master.new(size: size)
+    master = Threaded::Master.new(size: size)
     master.start
     assert_equal size, master.workers.size
     master.stop
 
     size   = 3
-    master = ThreadedInMemoryQueue::Master.new(size: size)
+    master = Threaded::Master.new(size: size)
     master.start
     assert_equal size, master.workers.size
     master.stop
 
     size   = 6
-    master = ThreadedInMemoryQueue::Master.new(size: size)
+    master = Threaded::Master.new(size: size)
     master.start
     assert_equal size, master.workers.size
     master.stop
 
     size   = 16
-    master = ThreadedInMemoryQueue::Master.new(size: size)
+    master = Threaded::Master.new(size: size)
     master.start
     assert_equal size, master.workers.size
     master.stop
@@ -32,7 +32,7 @@ class MasterTest < Test::Unit::TestCase
     Dummy.expects(:process).with(1).once
     Dummy.expects(:process).with(2).once
 
-    master = ThreadedInMemoryQueue::Master.new(size: 1)
+    master = Threaded::Master.new(size: 1)
     master.start
 
     job = Proc.new {|x| Dummy.process(x) }
@@ -52,7 +52,7 @@ class MasterTest < Test::Unit::TestCase
       end
     end
 
-    master = ThreadedInMemoryQueue::Master.new(size: 1)
+    master = Threaded::Master.new(size: 1)
     master.start
     master.enqueue(job, 1)
     master.enqueue(job, 2)

@@ -2,10 +2,10 @@ require 'thread'
 require 'timeout'
 require 'logger'
 
-require 'threaded_in_memory_queue/version'
-require 'threaded_in_memory_queue/timeout'
+require 'threaded/version'
+require 'threaded/timeout'
 
-module ThreadedInMemoryQueue
+module Threaded
   STOP_TIMEOUT = 10 # seconds
   extend self
   attr_accessor :inline, :logger, :size, :timeout
@@ -62,10 +62,10 @@ module ThreadedInMemoryQueue
   end
 end
 
-ThreadedInMemoryQueue.logger       = Logger.new(STDOUT)
-ThreadedInMemoryQueue.logger.level = Logger::INFO
+Threaded.logger       = Logger.new(STDOUT)
+Threaded.logger.level = Logger::INFO
 
 
-require 'threaded_in_memory_queue/errors'
-require 'threaded_in_memory_queue/worker'
-require 'threaded_in_memory_queue/master'
+require 'threaded/errors'
+require 'threaded/worker'
+require 'threaded/master'

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WorkerTest < Test::Unit::TestCase
   def setup
-    @worker = ThreadedInMemoryQueue::Worker.new(Queue.new, timeout: 1)
+    @worker = Threaded::Worker.new(Queue.new, timeout: 1)
     @worker.start
   end
 
