@@ -21,14 +21,9 @@ class ConfigTest < Test::Unit::TestCase
 
     Threaded.start
 
-    assert_equal Threaded.size, size
-    assert_equal Threaded.master.instance_variable_get("@size"), size
-
-    assert_equal Threaded.timeout, timeout
-    assert_equal Threaded.master.instance_variable_get("@timeout"), timeout
-
-    assert_equal Threaded.logger, logger
-    assert_equal Threaded.master.instance_variable_get("@logger"), logger
+    assert_equal size,    Threaded.size
+    assert_equal timeout, Threaded.timeout
+    assert_equal logger,  Threaded.logger
   end
 
   def test_config_cannot_call_after_start
