@@ -1,6 +1,7 @@
 ## Threaded
 
 [![Build Status](https://travis-ci.org/schneems/threaded.png?branch=master)](https://travis-ci.org/schneems/threaded)
+[![Help Contribute to Open Source](https://www.codetriage.com/schneems/threaded_in_memory_queue/badges/users.svg)](https://www.codetriage.com/schneems/threaded_in_memory_queue)
 
 
 A simple non-durable in memory queue for running background tasks using threads.
